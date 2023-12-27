@@ -1,0 +1,146 @@
+1)BasePage.java
+package pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
+
+public class BasePage {
+    protected WebDriver driver;
+
+    public BasePage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+}
+
+2)SignupPage.java
+package pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class SignupPage extends BasePage {
+
+    @FindBy(id = "sign-username")
+    private WebElement usernameInput;
+
+    @FindBy(id = "sign-password")
+    private WebElement passwordInput;
+
+    @FindBy(id = "signInModal")
+    private WebElement signupButton;
+
+    public SignupPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public void signUp(String username, String password) {
+        usernameInput.sendKeys(username);
+        passwordInput.sendKeys(password);
+        signupButton.click();
+    }
+}
+
+3)LoginPage.java
+package pages;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class LoginPage extends BasePage {
+
+    @FindBy(id = "loginusername")
+    private WebElement usernameInput;
+
+    @FindBy(id = "loginpassword")
+    private WebElement passwordInput;
+
+    @FindBy(id = "logInModal")
+    private WebElement loginButton;
+
+    public LoginPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public void login(String username, String password) {
+        usernameInput.sendKeys(username);
+        passwordInput.sendKeys(password);
+        loginButton.click();
+    }
+}
+
+4)SignupTest.java
+package tests;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import pages.SignupPage;
+
+public class SignupTest {
+
+    private WebDriver driver;
+    private SignupPage signupPage;
+
+    @BeforeClass
+    public void setup() {
+        // Create a new instance of the Edge driver
+        EdgeDriver driver = new EdgeDriver();
+        signupPage = new SignupPage(driver);
+        driver.get("https://www.demoblaza.com/");
+    }
+
+    @Test
+    public void testSignup() {
+        signupPage.signUp("Arpita", "arpita@14");
+        
+    }
+
+    @AfterClass
+    public void teardown() {
+        driver.quit();
+    }
+}
+
+5)LoginTest.java
+package tests;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import pages.LoginPage;
+
+public class LoginTest {
+
+    private WebDriver driver;
+    private LoginPage loginPage;
+
+    @BeforeClass
+    public void setup() {
+        // Create a new instance of the Edge driver
+        EdgeDriver driver = new EdgeDriver();
+        loginPage = new LoginPage(driver);
+        driver.get("https://www.demoblaza.com/");
+    }
+
+    @Test
+    public void testLogin() {
+        loginPage.login("Arpita", "arpita@14");
+        
+    }
+
+    @AfterClass
+    public void teardown() {
+        driver.quit();
+    }
+}
+
+
+
+
